@@ -279,6 +279,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   .hero .hi h2{font-size:15px}
   .hero .hp{min-width:unset;width:100%}
   .hero .hs{margin-left:0;gap:20px}
+  #hero-avg-big{font-size:36px !important}
 
   /* tabs: horizontal scroll, no wrap */
   .tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap}
@@ -386,7 +387,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     <div class="stat"><div class="lbl">MLA Progress</div><div class="val" style="color:var(--orange)" id="ov-pct">0%</div><div class="sub" id="ov-sub">0 / 31 items</div></div>
     <div class="stat"><div class="lbl">Best Practice Score</div><div class="val" style="color:var(--purple)">92%</div><div class="sub">Marlon PT1 · A2 — Pass ✓</div></div>
     <div class="stat"><div class="lbl">Scores Above 72%</div><div class="val" style="color:var(--green)" id="ov-pass">0</div><div class="sub" id="ov-passsub">of 0 attempts taken</div></div>
-    <div class="stat"><div class="lbl">Avg Score (All Attempts)</div><div class="val" style="color:var(--blue)" id="ov-avg">—</div><div class="sub">Across all 3 instructors</div></div>
+    <div class="stat"><div class="lbl">Avg Latest Score</div><div class="val" style="color:var(--blue)" id="ov-avg">—</div><div class="sub" id="ov-avg-sub">Most recent attempt per test</div></div>
   </div>
 
   <!-- Row 1: MLA breakdown + Score trend -->
@@ -436,6 +437,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
       <div class="code">MLA-C01 · Associate · 65 Questions · 130 min · $150</div>
       <div class="atag">🔥 Currently Active</div>
     </div>
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;
+                min-width:160px;padding:0 18px;border-left:1px solid var(--border);border-right:1px solid var(--border)">
+      <div id="hero-avg-big" style="font-size:52px;font-weight:900;line-height:1;
+           background:linear-gradient(135deg,#FF9900,#FFD93D);
+           -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">—</div>
+      <div style="font-size:10px;color:var(--muted);margin-top:5px;text-transform:uppercase;letter-spacing:.8px;font-weight:700">Avg Latest</div>
+      <div style="font-size:9px;color:var(--border);margin-top:3px">most recent per test</div>
+    </div>
     <div class="hp" style="min-width:220px">
       <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:10px">
         <div class="pct" id="mla-pct" style="font-size:38px;font-weight:900;color:var(--orange);line-height:1">0%</div>
@@ -452,7 +461,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     </div>
     <div class="hs">
       <div class="hsi"><div class="v" style="color:var(--purple)">92%</div><div class="l">Best Score</div></div>
-      <div class="hsi"><div class="v" style="color:var(--green)" id="ov-pass-hero">65%</div><div class="l">Pass Rate</div></div>
+      <div class="hsi"><div class="v" style="color:var(--orange)" id="hero-avg-latest">—</div><div class="l">Avg Latest</div></div>
+      <div class="hsi"><div class="v" style="color:var(--green)" id="ov-pass-hero">—</div><div class="l">Pass Rate</div></div>
       <div class="hsi"><div class="v" style="color:var(--blue)">$150</div><div class="l">Exam Cost</div></div>
     </div>
   </div>
@@ -521,9 +531,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
       </span>
     </div>
     <div class="ptg">
-      <div class="ptc"><div class="inn">Stephane Maarek</div><div class="ins">3 Tests · Best: <span>70%</span></div><div class="ch" style="height:160px"><canvas id="ch-sm"></canvas></div><div id="sm-rows" style="margin-top:8px"></div></div>
-      <div class="ptc"><div class="inn">Nikolai Schuler</div><div class="ins">4 Tests · Best: <span>87%</span></div><div class="ch" style="height:160px"><canvas id="ch-ns"></canvas></div><div id="ns-rows" style="margin-top:8px"></div></div>
-      <div class="ptc"><div class="inn">Marlon Anesi</div><div class="ins">6 Tests · Best: <span>92%</span></div><div class="ch" style="height:160px"><canvas id="ch-ma"></canvas></div><div id="ma-rows" style="margin-top:8px"></div></div>
+      <div class="ptc"><div class="inn">Stephane Maarek</div><div class="ins">3 Tests · Best: <span>70%</span> · Avg Latest: <span id="al-sm" style="color:var(--orange)">—</span></div><div class="ch" style="height:160px"><canvas id="ch-sm"></canvas></div><div id="sm-rows" style="margin-top:8px"></div></div>
+      <div class="ptc"><div class="inn">Nikolai Schuler</div><div class="ins">4 Tests · Best: <span>87%</span> · Avg Latest: <span id="al-ns" style="color:var(--orange)">—</span></div><div class="ch" style="height:160px"><canvas id="ch-ns"></canvas></div><div id="ns-rows" style="margin-top:8px"></div></div>
+      <div class="ptc"><div class="inn">Marlon Anesi</div><div class="ins">6 Tests · Best: <span>92%</span> · Avg Latest: <span id="al-ma" style="color:var(--orange)">—</span></div><div class="ch" style="height:160px"><canvas id="ch-ma"></canvas></div><div id="ma-rows" style="margin-top:8px"></div></div>
     </div>
     <div class="card" style="margin-bottom:14px"><h3>Score Heatmap — All Tests &amp; Attempts</h3><div id="hm-wrap" style="padding-top:4px"></div></div>
     <div class="card"><h3>All Scores — Combined View (Best per Test)</h3><div class="ch" style="height:240px"><canvas id="ch-all"></canvas></div></div>
@@ -727,17 +737,41 @@ function updOvStats(){
   const allScores=getAllScores();
   const taken=allScores.filter(v=>v!==null);
   const passed=taken.filter(v=>v>=PASS);
-  const avg=taken.length?Math.round(taken.reduce((a,b)=>a+b,0)/taken.length):null;
   const passRate=taken.length?Math.round(passed.length/taken.length*100):0;
+  const latestScores=getLatestScores();
+  const avgLatest=latestScores.length?Math.round(latestScores.reduce((a,b)=>a+b,0)/latestScores.length):null;
   const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};
   set('ov-pass',passed.length);
   set('ov-passsub','of '+taken.length+' attempts taken');
-  set('ov-avg',avg!==null?avg+'%':'—');
-  set('ov-pass-hero',passRate+'%');
+  set('ov-avg',avgLatest!==null?avgLatest+'%':'—');
+  set('ov-pass-hero',passRate>0?passRate+'%':'—');
+  set('hero-avg-latest',avgLatest!==null?avgLatest+'%':'—');
+  set('hero-avg-big',avgLatest!==null?avgLatest+'%':'—');
+  // per-instructor avg latest on PT cards
+  set('al-sm',instLatestAvg(SM));
+  set('al-ns',instLatestAvg(NS));
+  set('al-ma',instLatestAvg(MA));
 }
 
 function getAllScores(){
   return [...SM,...NS,...MA].flatMap(t=>t.scores);
+}
+
+// Latest attempt score per test (last non-null in each test's scores)
+function getLatestScores(){
+  return [...SM,...NS,...MA].map(t=>{
+    const taken=t.scores.filter(v=>v!==null);
+    return taken.length?taken[taken.length-1]:null;
+  }).filter(v=>v!==null);
+}
+
+// Avg of latest scores for one instructor's test set
+function instLatestAvg(tests){
+  const vals=tests.map(t=>{
+    const taken=t.scores.filter(v=>v!==null);
+    return taken.length?taken[taken.length-1]:null;
+  }).filter(v=>v!==null);
+  return vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length)+'%':'—';
 }
 
 function restore(){
@@ -1080,14 +1114,18 @@ function rendTrend(inst,pt){
 
 function rendSummary(inst,count,sumId){
   const el=document.getElementById(sumId);if(!el)return;
-  const taken=[];
+  const bests=[];
+  const latests=[];
   for(let pt=1;pt<=count;pt++){
-    const b=bestS(inst,pt);if(b!==null)taken.push(b);
+    const b=bestS(inst,pt);if(b!==null)bests.push(b);
+    const vals=[1,2,3,4,5].map(a=>getS(inst,pt,a)).filter(v=>v!==null);
+    if(vals.length)latests.push(vals[vals.length-1]);
   }
-  if(!taken.length){el.innerHTML='No scores yet';return;}
-  const p=taken.filter(v=>v>=PASS).length,f=taken.length-p;
-  const avg=Math.round(taken.reduce((a,b)=>a+b,0)/taken.length);
-  el.innerHTML=`Avg best: <strong>${avg}%</strong> &nbsp;·&nbsp; <span class="p">${p} pass</span> / <span class="f">${f} fail</span> (best-per-test)`;
+  if(!bests.length){el.innerHTML='No scores yet';return;}
+  const p=bests.filter(v=>v>=PASS).length,f=bests.length-p;
+  const avgBest=Math.round(bests.reduce((a,b)=>a+b,0)/bests.length);
+  const avgLatest=latests.length?Math.round(latests.reduce((a,b)=>a+b,0)/latests.length):null;
+  el.innerHTML=`Avg best: <strong>${avgBest}%</strong> &nbsp;·&nbsp; Avg latest: <strong style="color:var(--orange)">${avgLatest!==null?avgLatest+'%':'—'}</strong> &nbsp;·&nbsp; <span class="p">${p} pass</span> / <span class="f">${f} fail</span>`;
 }
 
 function schanged(inst,pt,a,val){
