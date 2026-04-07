@@ -246,6 +246,94 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 .ov-section-title{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;
                    letter-spacing:.9px;margin:20px 0 10px;display:flex;align-items:center;gap:8px}
 .ov-section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ── TABLE SCROLL WRAPPER ── */
+.tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tbl-scroll .ut,.tbl-scroll .ts{min-width:520px}
+
+/* ══ MOBILE RESPONSIVE ══ */
+@media(max-width:768px){
+  /* let body scroll naturally on mobile */
+  body{height:auto;min-height:100vh;overflow-y:auto}
+  #wrap{flex:none;overflow-y:visible;padding:12px}
+
+  /* header */
+  #hdr{padding:0 12px;height:46px;min-height:46px}
+  #hdr h1{font-size:13px}
+  #hdr .user{font-size:9px}
+  #hdr .user strong{display:none}
+
+  /* nav — already scrollable, just reduce item padding */
+  .nv{padding:0 8px;font-size:10px}
+  .nvlbl{padding:0 5px;font-size:8px}
+
+  /* grids: all collapse to single column */
+  .g2,.g3,.g4,.g13,.g23{grid-template-columns:1fr}
+  /* stat row: 2 cols on tablet, 1 on phone */
+  .g4{grid-template-columns:1fr 1fr}
+  .ptg{grid-template-columns:1fr}
+
+  /* hero: stack vertically */
+  .hero{flex-direction:column;align-items:flex-start;padding:14px 16px;gap:12px}
+  .hero img{width:56px;height:56px}
+  .hero .hi h2{font-size:15px}
+  .hero .hp{min-width:unset;width:100%}
+  .hero .hs{margin-left:0;gap:20px}
+
+  /* tabs: horizontal scroll, no wrap */
+  .tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{white-space:nowrap;padding:7px 12px;font-size:11px}
+
+  /* cards */
+  .card{padding:12px}
+  .card h3{font-size:9px;margin-bottom:10px}
+
+  /* training items: trim on mobile */
+  .titags{display:none}
+  .tinum{display:none}
+  .tidur{min-width:32px;font-size:9px}
+
+  /* tables: horizontal scroll */
+  #tc-udemy .card,#tc-trk .tsh{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .ut{min-width:480px}
+  .ts{min-width:520px}
+
+  /* heatmap scroll */
+  #hm-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .hm-table{min-width:400px}
+
+  /* practice test rows */
+  .ptg .ptc{padding:12px}
+  .sl{min-width:72px}
+
+  /* tracker header */
+  .trk-inst-hdr{flex-direction:column;align-items:flex-start;gap:3px}
+  .trk-inst-hdr .isummary{font-size:9px}
+
+  /* chart heights: tighten on mobile */
+  .ch[style]{height:170px !important}
+
+  /* stat cards */
+  .stat{padding:12px 14px}
+  .stat .val{font-size:22px}
+}
+
+@media(max-width:480px){
+  #wrap{padding:8px}
+  #hdr{padding:0 10px}
+  #hdr h1{font-size:12px}
+  #hdr .user{display:none}
+  .g4{grid-template-columns:1fr 1fr}
+  .hero img{width:44px;height:44px}
+  .hero .hi h2{font-size:13px}
+  .hero .hs .hsi .v{font-size:15px}
+  .stat .val{font-size:20px}
+  .card{padding:10px}
+  .tab{font-size:10px;padding:6px 10px}
+  .ptg .ptc .inn{font-size:12px}
+  .sh .st{font-size:11px}
+}
 </style>
 </head>
 <body>
@@ -413,8 +501,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   <div class="tc" id="tc-udemy">
     <div class="card">
       <h3>Stephane Maarek — MLA-C01 Course (14 Sections · 310 Lectures · ~23.5h)</h3>
-      <table class="ut"><thead><tr><th style="width:34px">Done</th><th>#</th><th>Section</th><th>Lectures</th><th>Duration</th></tr></thead>
-      <tbody id="udemy-tbody"></tbody></table>
+      <div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
+      <table class="ut" style="min-width:420px"><thead><tr><th style="width:34px">Done</th><th>#</th><th>Section</th><th>Lectures</th><th>Duration</th></tr></thead>
+      <tbody id="udemy-tbody"></tbody></table></div>
     </div>
   </div>
 
@@ -451,13 +540,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
         <div class="leg"><span style="color:#2ECC71">■</span> Pass ≥ 72%</div>
       </div>
       <div class="tshsec"><div class="sq"></div><span>Stephane Maarek — Course Sections</span><span class="cnt">(14 sections · 310 lectures · ~23.5h)</span></div>
-      <table class="ts"><thead><tr><th style="width:32px;text-align:center">✓</th><th>#</th><th>Section</th><th>Lec</th><th>Dur</th><th style="min-width:180px">Notes / Key Topics</th></tr></thead><tbody id="trk-course"></tbody></table>
+      <div style="overflow-x:auto;-webkit-overflow-scrolling:touch"><table class="ts" style="min-width:520px"><thead><tr><th style="width:32px;text-align:center">✓</th><th>#</th><th>Section</th><th>Lec</th><th>Dur</th><th style="min-width:180px">Notes / Key Topics</th></tr></thead><tbody id="trk-course"></tbody></table></div>
       <div class="trk-inst-hdr"><div class="iname">Stephane Maarek — Practice Tests (3 tests)</div><div class="isummary" id="sum-sm">—</div></div>
-      <table class="ts"><thead><tr><th style="min-width:110px">Practice Test</th><th>A1 (%)</th><th>A2 (%)</th><th>A3 (%)</th><th>A4 (%)</th><th>A5 (%)</th><th>Trend</th><th>Best Score</th></tr></thead><tbody id="trk-sm"></tbody></table>
+      <div style="overflow-x:auto;-webkit-overflow-scrolling:touch"><table class="ts" style="min-width:480px"><thead><tr><th style="min-width:110px">Practice Test</th><th>A1 (%)</th><th>A2 (%)</th><th>A3 (%)</th><th>A4 (%)</th><th>A5 (%)</th><th>Trend</th><th>Best Score</th></tr></thead><tbody id="trk-sm"></tbody></table></div>
       <div class="trk-inst-hdr"><div class="iname">Nikolai Schuler — Practice Tests (4 tests)</div><div class="isummary" id="sum-ns">—</div></div>
-      <table class="ts"><thead><tr><th style="min-width:110px">Practice Test</th><th>A1 (%)</th><th>A2 (%)</th><th>A3 (%)</th><th>A4 (%)</th><th>A5 (%)</th><th>Trend</th><th>Best Score</th></tr></thead><tbody id="trk-ns"></tbody></table>
+      <div style="overflow-x:auto;-webkit-overflow-scrolling:touch"><table class="ts" style="min-width:480px"><thead><tr><th style="min-width:110px">Practice Test</th><th>A1 (%)</th><th>A2 (%)</th><th>A3 (%)</th><th>A4 (%)</th><th>A5 (%)</th><th>Trend</th><th>Best Score</th></tr></thead><tbody id="trk-ns"></tbody></table></div>
       <div class="trk-inst-hdr"><div class="iname">Marlon Anesi — Practice Tests (6 tests)</div><div class="isummary" id="sum-ma">—</div></div>
-      <table class="ts"><thead><tr><th style="min-width:110px">Practice Test</th><th>A1 (%)</th><th>A2 (%)</th><th>A3 (%)</th><th>A4 (%)</th><th>A5 (%)</th><th>Trend</th><th>Best Score</th></tr></thead><tbody id="trk-ma"></tbody></table>
+      <div style="overflow-x:auto;-webkit-overflow-scrolling:touch"><table class="ts" style="min-width:480px"><thead><tr><th style="min-width:110px">Practice Test</th><th>A1 (%)</th><th>A2 (%)</th><th>A3 (%)</th><th>A4 (%)</th><th>A5 (%)</th><th>Trend</th><th>Best Score</th></tr></thead><tbody id="trk-ma"></tbody></table></div>
       <div class="tshfooter">■ 14 Theory Sections · 13 Practice Tests · 3 Instructors · Target: ≥ 72% to Pass</div>
     </div>
   </div>
