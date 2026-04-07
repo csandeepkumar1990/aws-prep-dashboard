@@ -179,13 +179,28 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 .ts td:last-child{border-right:none}
 .ts input[type=checkbox]{accent-color:var(--orange);width:13px;height:13px;cursor:pointer}
 .tdr td{opacity:.5}.tdr .sn2{text-decoration:line-through}
-.si{width:48px;background:transparent;border:1px solid transparent;border-radius:4px;
-    color:var(--text);font-size:11px;font-weight:600;padding:2px 4px;text-align:center;
-    transition:border-color .12s,background .12s}
+.si{width:50px;background:transparent;border:1px solid transparent;border-radius:4px;
+    color:var(--text);font-size:11px;font-weight:700;padding:3px 4px;text-align:center;
+    transition:all .15s}
 .si:focus{outline:none;border-color:var(--orange);background:rgba(255,153,0,.08)}
 .si:hover{border-color:var(--border)}.si::placeholder{color:#3D4F60}
-.bc{font-weight:800;font-size:12px;min-width:52px;text-align:center}
-.bc.pass{color:#2ECC71}.bc.fail{color:#E74C3C}.bc.none{color:var(--muted);font-weight:400;font-size:10px}
+.si.s-pass{background:rgba(46,204,113,.12);color:#2ECC71;border-color:rgba(46,204,113,.2)}
+.si.s-warn{background:rgba(241,196,15,.1);color:#F1C40F;border-color:rgba(241,196,15,.2)}
+.si.s-fail{background:rgba(231,76,60,.12);color:#E74C3C;border-color:rgba(231,76,60,.2)}
+.bc{font-weight:800;font-size:12px;min-width:56px;text-align:center;padding:3px 8px;
+    border-radius:5px;display:inline-block}
+.bc.pass{background:rgba(46,204,113,.15);color:#2ECC71;border:1px solid rgba(46,204,113,.25)}
+.bc.fail{background:rgba(231,76,60,.12);color:#E74C3C;border:1px solid rgba(231,76,60,.2)}
+.bc.none{color:var(--muted);font-weight:400;font-size:10px;background:transparent;border:none}
+.trk-inst-hdr{background:linear-gradient(90deg,var(--dark),#1E2A3A);padding:8px 14px;
+              border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+              display:flex;align-items:center;justify-content:space-between}
+.trk-inst-hdr .iname{font-size:12px;font-weight:700}
+.trk-inst-hdr .isummary{font-size:10px;color:var(--muted)}
+.trk-inst-hdr .isummary .p{color:var(--green);font-weight:700}
+.trk-inst-hdr .isummary .f{color:var(--red);font-weight:700}
+.trend{font-size:10px;margin-left:3px;font-weight:700}
+.trend.up{color:#2ECC71}.trend.dn{color:#E74C3C}.trend.eq{color:#8899AA}
 .ni{width:100%;min-width:100px;background:transparent;border:1px solid transparent;border-radius:4px;
     color:var(--text);font-size:10px;padding:2px 5px;font-family:inherit;transition:border-color .12s}
 .ni:focus{outline:none;border-color:var(--orange);background:rgba(255,153,0,.05)}
@@ -202,6 +217,30 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 /* attempt colors */
 .a1c{background:#5DADE2}.a2c{background:#BB8FCE}.a3c{background:#2ECC71}
 .a4c{background:#F0B27A}.a5c{background:#E74C3C}
+
+/* donut inner text */
+.donut-wrap{position:relative;height:160px}
+.donut-inner{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+             text-align:center;pointer-events:none;line-height:1.2}
+.donut-inner .dpct{font-size:22px;font-weight:900}
+.donut-inner .dlbl{font-size:9px;color:var(--muted);margin-top:2px}
+
+/* heatmap */
+.hm-table{border-collapse:separate;border-spacing:3px;width:100%}
+.hm-table th{font-size:9px;color:var(--muted);padding:3px 6px;font-weight:700;text-align:center;white-space:nowrap}
+.hm-table th.left{text-align:left;min-width:90px}
+.hm-cell{height:32px;min-width:52px;border-radius:5px;text-align:center;font-size:10px;
+          font-weight:700;vertical-align:middle;padding:0 4px;transition:opacity .15s}
+.hm-cell:hover{opacity:.8}
+.hm-pass{background:rgba(46,204,113,.22);color:#2ECC71;border:1px solid rgba(46,204,113,.2)}
+.hm-near{background:rgba(241,196,15,.15);color:#F1C40F;border:1px solid rgba(241,196,15,.15)}
+.hm-fail{background:rgba(231,76,60,.2);color:#E74C3C;border:1px solid rgba(231,76,60,.15)}
+.hm-empty{background:rgba(45,61,80,.3);color:#2D3D50;border:1px solid transparent}
+.hm-inst-row th{background:rgba(255,153,0,.08);color:var(--orange);font-size:10px;
+                 padding:5px 6px;border-radius:3px}
+.mb16{margin-bottom:16px}
+.chart-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.chart-header h3{margin-bottom:0}
 
 /* overview analytics */
 .ov-section-title{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;
@@ -223,7 +262,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 
 <!-- FLAT SINGLE-CLICK NAV -->
 <div id="nav">
-  <div class="nv on" id="nv-overview" onclick="showPage('overview')">Overview</div>
+  <div class="nv" id="nv-overview" onclick="showPage('overview')">Overview</div>
   <div class="nvsep"></div>
   <div class="nvlbl">Foundational</div>
   <div class="nv" id="nv-clf" onclick="showCert('clf')"><span class="lvdot f"></span>CLF-C02</div>
@@ -234,7 +273,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   <div class="nv" id="nv-dva" onclick="showCert('dva')"><span class="lvdot a"></span>DVA-C02</div>
   <div class="nv" id="nv-soa" onclick="showCert('soa')"><span class="lvdot a"></span>SOA-C02</div>
   <div class="nv" id="nv-dea" onclick="showCert('dea')"><span class="lvdot a"></span>DEA-C01</div>
-  <div class="nv mla-nav" id="nv-mla" onclick="showCert('mla')"><span class="lvdot a"></span>MLA-C01 🔥</div>
+  <div class="nv mla-nav on" id="nv-mla" onclick="showCert('mla')"><span class="lvdot a"></span>MLA-C01 🔥</div>
   <div class="nvsep"></div>
   <div class="nvlbl">Professional</div>
   <div class="nv" id="nv-sap" onclick="showCert('sap')"><span class="lvdot p"></span>SAP-C02</div>
@@ -252,7 +291,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 <div id="wrap">
 
 <!-- ══ OVERVIEW PAGE ══ -->
-<div id="page-overview">
+<div id="page-overview" style="display:none">
 
   <!-- Stat row -->
   <div class="g4">
@@ -301,7 +340,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 </div>
 
 <!-- ══ MLA DETAIL PAGE ══ -->
-<div id="page-mla" style="display:none">
+<div id="page-mla">
   <div class="hero">
     <img src="https://d1.awsstatic.com/onedam/marketing-channels/website/aws/en_US/certification/approved/images/certification-badges/mla-badge-resized.000553bbd0e69d5d0d3d555068acfd9f61fed313.png" alt="MLA-C01">
     <div class="hi">
@@ -309,15 +348,24 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
       <div class="code">MLA-C01 · Associate · 65 Questions · 130 min · $150</div>
       <div class="atag">🔥 Currently Active</div>
     </div>
-    <div class="hp">
-      <div class="pct" id="mla-pct">0%</div>
-      <div class="pb-wrap"><div class="pb-fill" id="mla-bar" style="width:0%"></div></div>
-      <div class="psub" id="mla-sub">0 of 31 items completed</div>
+    <div class="hp" style="min-width:220px">
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:10px">
+        <div class="pct" id="mla-pct" style="font-size:38px;font-weight:900;color:var(--orange);line-height:1">0%</div>
+        <div style="font-size:10px;color:var(--muted)" id="mla-sub">0 / 31 items</div>
+      </div>
+      <div class="segbar">
+        <div class="sb-aws" id="seg-aws" style="width:0%" title="AWS Exam Prep"></div>
+        <div class="sb-ud" id="seg-ud" style="width:0%" title="Udemy Course"></div>
+      </div>
+      <div class="seg-legend">
+        <div class="sl"><div class="dot" style="background:#FF9900"></div>AWS Prep <strong id="st-aws">0/17</strong></div>
+        <div class="sl"><div class="dot" style="background:#5DADE2"></div>Udemy <strong id="st-ud">0/14</strong></div>
+      </div>
     </div>
     <div class="hs">
-      <div class="hsi"><div class="v" style="color:var(--orange)" id="st-aws">0/17</div><div class="l">AWS Prep</div></div>
-      <div class="hsi"><div class="v" style="color:var(--blue)" id="st-ud">0/14</div><div class="l">Udemy</div></div>
       <div class="hsi"><div class="v" style="color:var(--purple)">92%</div><div class="l">Best Score</div></div>
+      <div class="hsi"><div class="v" style="color:var(--green)" id="ov-pass-hero">65%</div><div class="l">Pass Rate</div></div>
+      <div class="hsi"><div class="v" style="color:var(--blue)">$150</div><div class="l">Exam Cost</div></div>
     </div>
   </div>
 
@@ -403,12 +451,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
       </div>
       <div class="tshsec"><div class="sq"></div><span>Stephane Maarek — Course Sections</span><span class="cnt">(14 sections · 310 lectures · ~23.5h)</span></div>
       <table class="ts"><thead><tr><th style="width:32px;text-align:center">✓</th><th>#</th><th>Section</th><th>Lec</th><th>Dur</th><th style="min-width:180px">Notes / Key Topics</th></tr></thead><tbody id="trk-course"></tbody></table>
-      <div class="tshsec"><div class="sq"></div><span>Stephane Maarek — Practice Tests</span><span class="cnt">(3 tests)</span></div>
-      <table class="ts"><thead><tr><th style="min-width:110px">Practice Test</th><th>A1 (%)</th><th>A2 (%)</th><th>A3 (%)</th><th>A4 (%)</th><th>A5 (%)</th><th>Best</th></tr></thead><tbody id="trk-sm"></tbody></table>
-      <div class="tshsec"><div class="sq"></div><span>Nikolai Schuler — Practice Tests</span><span class="cnt">(4 tests)</span></div>
-      <table class="ts"><thead><tr><th style="min-width:110px">Practice Test</th><th>A1 (%)</th><th>A2 (%)</th><th>A3 (%)</th><th>A4 (%)</th><th>A5 (%)</th><th>Best</th></tr></thead><tbody id="trk-ns"></tbody></table>
-      <div class="tshsec"><div class="sq"></div><span>Marlon Anesi — Practice Tests</span><span class="cnt">(6 tests)</span></div>
-      <table class="ts"><thead><tr><th style="min-width:110px">Practice Test</th><th>A1 (%)</th><th>A2 (%)</th><th>A3 (%)</th><th>A4 (%)</th><th>A5 (%)</th><th>Best</th></tr></thead><tbody id="trk-ma"></tbody></table>
+      <div class="trk-inst-hdr"><div class="iname">Stephane Maarek — Practice Tests (3 tests)</div><div class="isummary" id="sum-sm">—</div></div>
+      <table class="ts"><thead><tr><th style="min-width:110px">Practice Test</th><th>A1 (%)</th><th>A2 (%)</th><th>A3 (%)</th><th>A4 (%)</th><th>A5 (%)</th><th>Trend</th><th>Best Score</th></tr></thead><tbody id="trk-sm"></tbody></table>
+      <div class="trk-inst-hdr"><div class="iname">Nikolai Schuler — Practice Tests (4 tests)</div><div class="isummary" id="sum-ns">—</div></div>
+      <table class="ts"><thead><tr><th style="min-width:110px">Practice Test</th><th>A1 (%)</th><th>A2 (%)</th><th>A3 (%)</th><th>A4 (%)</th><th>A5 (%)</th><th>Trend</th><th>Best Score</th></tr></thead><tbody id="trk-ns"></tbody></table>
+      <div class="trk-inst-hdr"><div class="iname">Marlon Anesi — Practice Tests (6 tests)</div><div class="isummary" id="sum-ma">—</div></div>
+      <table class="ts"><thead><tr><th style="min-width:110px">Practice Test</th><th>A1 (%)</th><th>A2 (%)</th><th>A3 (%)</th><th>A4 (%)</th><th>A5 (%)</th><th>Trend</th><th>Best Score</th></tr></thead><tbody id="trk-ma"></tbody></table>
       <div class="tshfooter">■ 14 Theory Sections · 13 Practice Tests · 3 Instructors · Target: ≥ 72% to Pass</div>
     </div>
   </div>
@@ -575,8 +623,11 @@ function updProg(){
   const total=31,done=ad+ud,pct=Math.round(done/total*100);
   const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};
   const setw=(id,v)=>{const e=document.getElementById(id);if(e)e.style.width=v+'%'};
-  set('mla-pct',pct+'%');setw('mla-bar',pct);
-  set('mla-sub',`${done} of ${total} items completed`);
+  // hero segmented bar (each segment width = items/31 * 100%)
+  setw('seg-aws', (ad/total*100).toFixed(1));
+  setw('seg-ud', (ud/total*100).toFixed(1));
+  set('mla-pct',pct+'%');
+  set('mla-sub',done+' / '+total+' items');
   set('st-aws',ad+'/17');set('st-ud',ud+'/14');
   set('ov-pct',pct+'%');set('ov-sub',done+' / '+total+' items');
   updOvStats();
@@ -587,10 +638,12 @@ function updOvStats(){
   const taken=allScores.filter(v=>v!==null);
   const passed=taken.filter(v=>v>=PASS);
   const avg=taken.length?Math.round(taken.reduce((a,b)=>a+b,0)/taken.length):null;
+  const passRate=taken.length?Math.round(passed.length/taken.length*100):0;
   const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};
   set('ov-pass',passed.length);
   set('ov-passsub','of '+taken.length+' attempts taken');
   set('ov-avg',avg!==null?avg+'%':'—');
+  set('ov-pass-hero',passRate+'%');
 }
 
 function getAllScores(){
@@ -655,15 +708,18 @@ function renderRows(cid,tests){
 // ═══════════════════════════════════
 //  CHARTS
 // ═══════════════════════════════════
+// Register datalabels plugin globally (disable per-chart as needed)
+Chart.register(ChartDataLabels);
+
 const charts={};
 const dc=id=>{if(charts[id]){charts[id].destroy();delete charts[id];}};
 
-const baseOpts={responsive:true,maintainAspectRatio:false,animation:{duration:500},
-  plugins:{legend:{display:false}},
-  scales:{y:{grid:{color:'rgba(45,61,80,.7)'},ticks:{color:'#8899AA',font:{size:9}}},
-          x:{grid:{display:false},ticks:{color:'#8899AA',font:{size:9}}}}};
+const scaleOpts=(min=50)=>({
+  y:{min,max:100,grid:{color:'rgba(45,61,80,.65)'},ticks:{color:'#8899AA',font:{size:9},callback:v=>v+'%'}},
+  x:{grid:{display:false},ticks:{color:'#8899AA',font:{size:9}}}
+});
 
-// Grouped bar per instructor showing each attempt
+// Grouped bar per instructor showing every attempt
 function buildGrouped(id,tests){
   dc(id);const ctx=document.getElementById(id)?.getContext('2d');if(!ctx)return;
   const labels=tests.map(t=>t.label);
@@ -672,15 +728,24 @@ function buildGrouped(id,tests){
     const data=tests.map(t=>t.scores[a]??null);
     if(data.every(v=>v===null))continue;
     ds.push({label:`A${a+1}`,data,backgroundColor:ACB[a],borderColor:AC[a],
-             borderWidth:1.5,borderRadius:4,borderSkipped:false,spanGaps:false});
+             borderWidth:1.5,borderRadius:5,borderSkipped:false,spanGaps:false,
+             datalabels:{
+               anchor:'end',align:'top',offset:-2,
+               color:AC[a],font:{size:8,weight:'bold'},
+               formatter:v=>v!==null?v+'%':'',
+               display:ctx=>ctx.dataset.data[ctx.dataIndex]!==null,
+             }});
   }
-  ds.push({label:'Pass 72%',data:Array(labels.length).fill(72),type:'line',
-           borderColor:'#FF9900',borderDash:[4,4],borderWidth:1.5,pointRadius:0,fill:false,order:-1});
+  ds.push({label:'72% Pass',data:Array(labels.length).fill(72),type:'line',
+           borderColor:'#FF9900',borderDash:[4,4],borderWidth:1.5,
+           pointRadius:0,fill:false,order:-1,datalabels:{display:false}});
   charts[id]=new Chart(ctx,{type:'bar',data:{labels,datasets:ds},options:{
-    ...baseOpts,
-    plugins:{legend:{display:true,labels:{color:'#8899AA',font:{size:9},boxWidth:9,padding:8}}},
-    scales:{y:{min:50,max:100,grid:{color:'rgba(45,61,80,.7)'},ticks:{color:'#8899AA',font:{size:9}}},
-            x:{grid:{display:false},ticks:{color:'#8899AA',font:{size:9}}}},
+    responsive:true,maintainAspectRatio:false,animation:{duration:500},
+    scales:scaleOpts(50),
+    plugins:{
+      legend:{display:true,labels:{color:'#8899AA',font:{size:9},boxWidth:9,padding:8}},
+      datalabels:{display:false}, // default off; overridden per dataset above
+    },
   }});
 }
 
@@ -691,36 +756,52 @@ function buildCombined(){
   const maxL=Math.max(smB.length,nsB.length,maB.length);
   const labels=Array.from({length:maxL},(_,i)=>'PT '+(i+1));
   const pad=(a,n)=>a.concat(Array(n-a.length).fill(null));
+  const mkDL=(c)=>({
+    color:c,font:{size:9,weight:'bold'},anchor:'top',align:'top',offset:4,
+    formatter:v=>v!==null?v+'%':'',display:ctx=>ctx.dataset.data[ctx.dataIndex]!==null,
+  });
   charts['ch-all']=new Chart(ctx,{type:'line',data:{labels,datasets:[
-    {label:'Maarek',data:pad(smB,maxL),borderColor:'#5DADE2',backgroundColor:'rgba(93,173,226,.08)',borderWidth:2,pointRadius:5,pointBackgroundColor:'#5DADE2',spanGaps:false,tension:.35,fill:true},
-    {label:'Schuler',data:pad(nsB,maxL),borderColor:'#BB8FCE',backgroundColor:'rgba(187,143,206,.08)',borderWidth:2,pointRadius:5,pointBackgroundColor:'#BB8FCE',spanGaps:false,tension:.35,fill:true},
-    {label:'Anesi',data:pad(maB,maxL),borderColor:'#2ECC71',backgroundColor:'rgba(46,204,113,.08)',borderWidth:2,pointRadius:5,pointBackgroundColor:'#2ECC71',spanGaps:false,tension:.35,fill:true},
-    {label:'Pass (72%)',data:Array(maxL).fill(72),borderColor:'#FF9900',borderDash:[5,5],borderWidth:1.5,pointRadius:0,fill:false},
+    {label:'Maarek',data:pad(smB,maxL),borderColor:'#5DADE2',backgroundColor:'rgba(93,173,226,.1)',borderWidth:2.5,pointRadius:6,pointHoverRadius:8,pointBackgroundColor:'#5DADE2',spanGaps:false,tension:.35,fill:true,datalabels:mkDL('#5DADE2')},
+    {label:'Schuler',data:pad(nsB,maxL),borderColor:'#BB8FCE',backgroundColor:'rgba(187,143,206,.1)',borderWidth:2.5,pointRadius:6,pointHoverRadius:8,pointBackgroundColor:'#BB8FCE',spanGaps:false,tension:.35,fill:true,datalabels:mkDL('#BB8FCE')},
+    {label:'Anesi',data:pad(maB,maxL),borderColor:'#2ECC71',backgroundColor:'rgba(46,204,113,.1)',borderWidth:2.5,pointRadius:6,pointHoverRadius:8,pointBackgroundColor:'#2ECC71',spanGaps:false,tension:.35,fill:true,datalabels:mkDL('#2ECC71')},
+    {label:'Pass (72%)',data:Array(maxL).fill(72),borderColor:'#FF9900',borderDash:[5,5],borderWidth:1.5,pointRadius:0,fill:false,datalabels:{display:false}},
   ]},options:{
-    responsive:true,maintainAspectRatio:false,animation:{duration:500},
+    responsive:true,maintainAspectRatio:false,animation:{duration:600},
     scales:{y:{min:55,max:100,grid:{color:'rgba(45,61,80,.7)'},ticks:{color:'#8899AA',font:{size:9},callback:v=>v+'%'}},
             x:{grid:{display:false},ticks:{color:'#8899AA',font:{size:9}}}},
-    plugins:{legend:{display:true,labels:{color:'#8899AA',font:{size:10},boxWidth:10,padding:12}}},
+    plugins:{
+      legend:{display:true,labels:{color:'#8899AA',font:{size:10},boxWidth:10,padding:12}},
+      datalabels:{display:false}, // overridden per dataset
+    },
   }});
 }
 
 // ── OVERVIEW CHARTS ──
 
-// Progress breakdown horizontal bar
+// Progress breakdown horizontal stacked bar with labels
 function buildOvProgress(){
   dc('ch-progress');const ctx=document.getElementById('ch-progress')?.getContext('2d');if(!ctx)return;
   const ad=AWS_IDS.filter(id=>isOn(id)).length;
   const ud=UD_IDS.filter(id=>isOn(id)).length;
   charts['ch-progress']=new Chart(ctx,{type:'bar',data:{
-    labels:['AWS Exam Prep (17 items)','Udemy Sections (14 sections)','Total Progress (31 items)'],
+    labels:['AWS Exam Prep','Udemy Course','Overall'],
     datasets:[
-      {label:'Completed',data:[ad,ud,ad+ud],backgroundColor:['rgba(255,153,0,.8)','rgba(93,173,226,.8)','rgba(46,204,113,.8)'],borderColor:['#FF9900','#5DADE2','#2ECC71'],borderWidth:1.5,borderRadius:5,borderSkipped:false},
-      {label:'Remaining',data:[17-ad,14-ud,31-(ad+ud)],backgroundColor:'rgba(45,61,80,.5)',borderRadius:5,borderSkipped:false},
+      {label:'Completed',data:[ad,ud,ad+ud],
+       backgroundColor:['rgba(255,153,0,.85)','rgba(93,173,226,.85)','rgba(46,204,113,.85)'],
+       borderColor:['#FF9900','#5DADE2','#2ECC71'],borderWidth:1.5,borderRadius:5,borderSkipped:false,
+       datalabels:{color:'#fff',font:{size:10,weight:'bold'},anchor:'center',align:'center',
+                  formatter:(v,ctx)=>{const tot=[17,14,31][ctx.dataIndex];return v>0?`${v}/${tot}`:''}}},
+      {label:'Remaining',data:[17-ad,14-ud,31-(ad+ud)],
+       backgroundColor:'rgba(45,61,80,.45)',borderRadius:5,borderSkipped:false,
+       datalabels:{display:false}},
     ]},options:{
-    indexAxis:'y',responsive:true,maintainAspectRatio:false,animation:{duration:600},
-    scales:{x:{stacked:true,max:31,grid:{color:'rgba(45,61,80,.5)'},ticks:{color:'#8899AA',font:{size:9}}},
+    indexAxis:'y',responsive:true,maintainAspectRatio:false,animation:{duration:700},
+    scales:{x:{stacked:true,max:31,grid:{color:'rgba(45,61,80,.4)'},ticks:{color:'#8899AA',font:{size:9}}},
             y:{stacked:true,grid:{display:false},ticks:{color:'#8899AA',font:{size:10}}}},
-    plugins:{legend:{display:true,labels:{color:'#8899AA',font:{size:9},boxWidth:9,padding:8}}},
+    plugins:{
+      legend:{display:true,labels:{color:'#8899AA',font:{size:9},boxWidth:9,padding:8}},
+      datalabels:{display:false}, // overridden per dataset
+    },
   }});
 }
 
@@ -798,45 +879,63 @@ function buildOvDomain(){
   }});
 }
 
-// Score distribution
+// Score distribution with count labels
 function buildOvDist(){
   dc('ch-dist');const ctx=document.getElementById('ch-dist')?.getContext('2d');if(!ctx)return;
   const all=getAllScores().filter(v=>v!==null);
-  const buckets={'50-59':0,'60-69':0,'70-71':0,'72-79':0,'80-89':0,'90-100':0};
+  const buckets={'<60':0,'60–64':0,'65–71\n(near miss)':0,'72–79\n(pass)':0,'80–89\n(good)':0,'90–100\n(great)':0};
   all.forEach(s=>{
-    if(s<=59)buckets['50-59']++;else if(s<=69)buckets['60-69']++;
-    else if(s<=71)buckets['70-71']++;else if(s<=79)buckets['72-79']++;
-    else if(s<=89)buckets['80-89']++;else buckets['90-100']++;
+    if(s<60)buckets['<60']++;
+    else if(s<=64)buckets['60–64']++;
+    else if(s<=71)buckets['65–71\n(near miss)']++;
+    else if(s<=79)buckets['72–79\n(pass)']++;
+    else if(s<=89)buckets['80–89\n(good)']++;
+    else buckets['90–100\n(great)']++;
   });
-  const cols=['#E74C3C','#E67E22','#F39C12','#2ECC71','#27AE60','#1E8449'];
+  const cols=['#922B21','#E74C3C','#E67E22','#2ECC71','#27AE60','#1A5276'];
+  const vals=Object.values(buckets);
   charts['ch-dist']=new Chart(ctx,{type:'bar',data:{
     labels:Object.keys(buckets),
-    datasets:[{data:Object.values(buckets),backgroundColor:cols,borderColor:cols.map(c=>c),borderWidth:1.5,borderRadius:5,borderSkipped:false}]},
+    datasets:[{data:vals,backgroundColor:cols,borderColor:cols,borderWidth:1.5,borderRadius:6,borderSkipped:false,
+               datalabels:{color:'#fff',font:{size:10,weight:'bold'},anchor:'end',align:'top',
+                          formatter:v=>v>0?v:''}}]},
   options:{
-    responsive:true,maintainAspectRatio:false,animation:{duration:500},
-    scales:{y:{grid:{color:'rgba(45,61,80,.7)'},ticks:{color:'#8899AA',font:{size:9},stepSize:1}},
-            x:{grid:{display:false},ticks:{color:'#8899AA',font:{size:9}}}},
-    plugins:{legend:{display:false},
-             tooltip:{callbacks:{label:ctx=>`${ctx.parsed.y} attempt${ctx.parsed.y!==1?'s':''}`}}},
+    responsive:true,maintainAspectRatio:false,animation:{duration:600},
+    layout:{padding:{top:20}},
+    scales:{y:{grid:{color:'rgba(45,61,80,.6)'},ticks:{color:'#8899AA',font:{size:9},stepSize:1},beginAtZero:true},
+            x:{grid:{display:false},ticks:{color:'#8899AA',font:{size:8}}}},
+    plugins:{
+      legend:{display:false},datalabels:{display:false}, // overridden per dataset
+      tooltip:{callbacks:{label:ctx=>`${ctx.parsed.y} score${ctx.parsed.y!==1?'s':''}`}},
+    },
   }});
 }
 
-// Udemy hours horizontal bar
+// Udemy hours horizontal bar with completion labels
 function buildOvUdemy(){
   dc('ch-udemy');const ctx=document.getElementById('ch-udemy')?.getContext('2d');if(!ctx)return;
   const done=UDEMY.map(s=>isOn('mla-udemy-'+s.n));
   charts['ch-udemy']=new Chart(ctx,{type:'bar',data:{
-    labels:UDEMY.map(s=>s.n+'. '+s.name.substring(0,22)+(s.name.length>22?'…':'')),
+    labels:UDEMY.map(s=>s.n+'. '+s.name.substring(0,24)+(s.name.length>24?'…':'')),
     datasets:[{
       label:'Hours',data:UDEMY.map(s=>s.hrs),
-      backgroundColor:UDEMY.map((s,i)=>done[i]?'rgba(46,204,113,.75)':'rgba(93,173,226,.5)'),
+      backgroundColor:UDEMY.map((s,i)=>done[i]?'rgba(46,204,113,.8)':'rgba(93,173,226,.45)'),
       borderColor:UDEMY.map((s,i)=>done[i]?'#2ECC71':'#5DADE2'),
-      borderWidth:1.5,borderRadius:3,borderSkipped:false,
+      borderWidth:1.5,borderRadius:4,borderSkipped:false,
+      datalabels:{
+        color:(_,ctx)=>done[ctx.dataIndex]?'#2ECC71':'#5DADE2',
+        font:{size:8,weight:'bold'},anchor:'end',align:'right',
+        formatter:(v,ctx)=>v>0?(done[ctx.dataIndex]?'✓ ':'')+v+'h':'',
+      }
     }]},options:{
-    indexAxis:'y',responsive:true,maintainAspectRatio:false,animation:{duration:500},
-    scales:{x:{grid:{color:'rgba(45,61,80,.5)'},ticks:{color:'#8899AA',font:{size:9},callback:v=>v+'h'}},
+    indexAxis:'y',responsive:true,maintainAspectRatio:false,animation:{duration:600},
+    layout:{padding:{right:30}},
+    scales:{x:{grid:{color:'rgba(45,61,80,.4)'},ticks:{color:'#8899AA',font:{size:9},callback:v=>v+'h'},max:4},
             y:{grid:{display:false},ticks:{color:'#8899AA',font:{size:8}}}},
-    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.parsed.x}h`}}},
+    plugins:{
+      legend:{display:false},datalabels:{display:false}, // overridden per dataset
+      tooltip:{callbacks:{label:ctx=>`${ctx.parsed.x}h · ${done[ctx.dataIndex]?'✓ Done':'Pending'}`}},
+    },
   }});
 }
 
@@ -863,13 +962,52 @@ function setS(inst,pt,a,val){
 }
 function bestS(inst,pt){const v=[1,2,3,4,5].map(a=>getS(inst,pt,a)).filter(v=>v!==null);return v.length?Math.max(...v):null;}
 
+function scoreClass(v){
+  if(v===null||v==='')return'';
+  return v>=PASS?'s-pass':v>=65?'s-warn':'s-fail';
+}
+
+function colorInput(el,v){
+  el.className='si '+(v!==null&&v!==''?scoreClass(Number(v)):'');
+}
+
 function rendBest(inst,pt){
   const b=bestS(inst,pt),el=document.getElementById(`b-${inst}-pt${pt}`);if(!el)return;
-  if(b===null){el.className='bc none';el.textContent='—';return;}
+  if(b===null){el.className='bc none';el.innerHTML='—';return;}
   el.className='bc '+(b>=PASS?'pass':'fail');el.textContent=b+'%';
 }
 
-function schanged(inst,pt,a,val){setS(inst,pt,a,val);rendBest(inst,pt);}
+function rendTrend(inst,pt){
+  const el=document.getElementById(`tr-${inst}-pt${pt}`);if(!el)return;
+  const vals=[1,2,3,4,5].map(a=>getS(inst,pt,a)).filter(v=>v!==null);
+  if(vals.length<2){el.textContent='—';el.className='trend eq';return;}
+  const last=vals[vals.length-1],prev=vals[vals.length-2];
+  const diff=last-prev;
+  if(diff>0){el.textContent=`↑+${diff}%`;el.className='trend up';}
+  else if(diff<0){el.textContent=`↓${diff}%`;el.className='trend dn';}
+  else{el.textContent='→';el.className='trend eq';}
+}
+
+function rendSummary(inst,count,sumId){
+  const el=document.getElementById(sumId);if(!el)return;
+  const taken=[];
+  for(let pt=1;pt<=count;pt++){
+    const b=bestS(inst,pt);if(b!==null)taken.push(b);
+  }
+  if(!taken.length){el.innerHTML='No scores yet';return;}
+  const p=taken.filter(v=>v>=PASS).length,f=taken.length-p;
+  const avg=Math.round(taken.reduce((a,b)=>a+b,0)/taken.length);
+  el.innerHTML=`Avg best: <strong>${avg}%</strong> &nbsp;·&nbsp; <span class="p">${p} pass</span> / <span class="f">${f} fail</span> (best-per-test)`;
+}
+
+function schanged(inst,pt,a,val){
+  setS(inst,pt,a,val);
+  const inp=document.getElementById(`inp-${inst}-pt${pt}-a${a}`);
+  if(inp)colorInput(inp,val===''?null:Number(val));
+  rendBest(inst,pt);rendTrend(inst,pt);
+  const counts={sm:3,ns:4,ma:6};
+  rendSummary(inst,counts[inst],`sum-${inst}`);
+}
 
 function buildTrkPt(tbodyId,inst,count){
   const tb=document.getElementById(tbodyId);if(!tb)return;
@@ -877,11 +1015,18 @@ function buildTrkPt(tbodyId,inst,count){
     const pt=i+1;
     const cells=[1,2,3,4,5].map(a=>{
       const v=getS(inst,pt,a);
-      return`<td><input class="si" type="number" min="0" max="100" placeholder="—" value="${v!==null?v:''}" onchange="schanged('${inst}',${pt},${a},this.value)"></td>`;
+      const cls=v!==null?scoreClass(v):'';
+      return`<td><input class="si ${cls}" type="number" min="0" max="100" placeholder="—" id="inp-${inst}-pt${pt}-a${a}" value="${v!==null?v:''}" onchange="schanged('${inst}',${pt},${a},this.value)"></td>`;
     }).join('');
-    return`<tr><td style="font-size:11px">Practice Test ${pt}</td>${cells}<td class="bc none" id="b-${inst}-pt${pt}">—</td></tr>`;
+    return`<tr>
+      <td style="font-size:11px;font-weight:600">PT ${pt}</td>
+      ${cells}
+      <td><span class="trend eq" id="tr-${inst}-pt${pt}">—</span></td>
+      <td><span class="bc none" id="b-${inst}-pt${pt}">—</span></td>
+    </tr>`;
   }).join('');
-  for(let pt=1;pt<=count;pt++)rendBest(inst,pt);
+  for(let pt=1;pt<=count;pt++){rendBest(inst,pt);rendTrend(inst,pt);}
+  rendSummary(inst,count,`sum-${inst}`);
 }
 
 function buildTrkCourse(){
