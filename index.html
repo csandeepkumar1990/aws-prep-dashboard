@@ -10,7 +10,7 @@
   --orange:#FF9900;--dark:#232F3E;--navy:#1A2433;--border:#2D3D50;
   --green:#2ECC71;--red:#E74C3C;--blue:#5DADE2;--purple:#BB8FCE;
   --card:#1E2A3A;--text:#EAECEE;--muted:#8899AA;
-  --found:#2ECC71;--assoc:#5DADE2;--pro:#BB8FCE;--spec:#F0B27A;
+  --found:#2ECC71;--assoc:#5DADE2;--pro:#BB8FCE;--spec:#F0B27A;--skc:#00D2FF;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
@@ -34,6 +34,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 .pnv.on.a{color:var(--assoc);border-bottom-color:var(--assoc)}
 .pnv.on.p{color:var(--pro);border-bottom-color:var(--pro)}
 .pnv.on.s{color:var(--spec);border-bottom-color:var(--spec)}
+.pnv.on.k{color:var(--skc);border-bottom-color:var(--skc)}
+.lvdot.k{background:var(--skc)}
 .pnvsep{width:1px;background:var(--border);margin:8px 0;opacity:.5}
 
 /* ── SECONDARY NAV (certs) ── */
@@ -216,7 +218,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 
 /* ── PLACEHOLDER ── */
 .ph{text-align:center;padding:50px 20px;color:var(--muted)}
-.ph img{width:90px;height:90px;object-fit:contain;margin-bottom:14px;opacity:.8}
+.ph img{width:110px;height:110px;object-fit:contain;margin-bottom:14px;filter:drop-shadow(0 4px 14px rgba(255,153,0,.3))}
 .ph .ico{font-size:50px;margin-bottom:14px;display:none}
 .ph h3{font-size:17px;margin-bottom:8px;color:var(--text)}
 .ph p{font-size:12px;max-width:340px;margin:0 auto}
@@ -362,6 +364,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     <div class="pnv p" id="pnv-pro" onclick="selectLevel('pro')"><span class="lvdot p"></span>Professional</div>
     <div class="pnvsep"></div>
     <div class="pnv s" id="pnv-spec" onclick="selectLevel('spec')"><span class="lvdot s"></span>Specialty</div>
+    <div class="pnvsep"></div>
+    <div class="pnv k" id="pnv-skc" onclick="selectLevel('skc')"><span class="lvdot k"></span>Skills Center</div>
   </div>
   <div class="user"><strong>Sandeep Chandupatla</strong> · 1 Active · 14 Certs</div>
 </div>
@@ -506,6 +510,101 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   </div>
 </div>
 
+<!-- ══ SKILLS CENTER — CLF-C02 ══ -->
+<div id="page-skcclf" style="display:none">
+  <div class="hero">
+    <img src="https://images.credly.com/images/00634f82-b07f-4bbd-a6bb-53de397fc3a6/image.png" alt="CLF-C02" style="width:110px;height:110px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 4px 16px rgba(0,210,255,.35))">
+    <div class="hi">
+      <h2>AWS Certified Cloud Practitioner</h2>
+      <div class="code">CLF-C02 · AWS Skills Center – Virginia · 14 Items · ~46h 30m</div>
+      <div class="atag" style="background:rgba(0,210,255,.15);color:var(--skc);border-color:rgba(0,210,255,.3)">🎓 Skills Center – Virginia</div>
+    </div>
+    <div class="hp" style="min-width:200px">
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:10px">
+        <div class="pct" id="skcclf-pct" style="font-size:38px;font-weight:900;color:var(--skc);line-height:1">0%</div>
+        <div style="font-size:10px;color:var(--muted)" id="skcclf-sub">0 / 14 items</div>
+      </div>
+      <div style="height:8px;border-radius:4px;background:var(--border);overflow:hidden">
+        <div id="skcclf-bar" style="height:100%;width:0%;background:var(--skc);border-radius:4px;transition:width .4s"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sh"><div class="sn">1</div><div><div class="st">Foundation Knowledge</div><div class="sc">Core AWS concepts</div></div><div class="ss">4h 0m</div></div>
+  <div class="tlist">
+    <div class="ti"><input type="checkbox" id="skc-clf-1" onchange="skcCk('skc-clf-1',this)"><span class="tinum">1</span><span class="tin">Why Get AWS Certified?</span><span class="tidur">1h 0m</span></div>
+    <div class="ti"><input type="checkbox" id="skc-clf-2" onchange="skcCk('skc-clf-2',this)"><span class="tinum">2</span><span class="tin">Introduction to the AWS Cloud</span><span class="tidur">1h 0m</span></div>
+    <div class="ti"><input type="checkbox" id="skc-clf-3" onchange="skcCk('skc-clf-3',this)"><span class="tinum">3</span><span class="tin">Job Roles in the Cloud</span><span class="tidur">1h 0m</span></div>
+    <div class="ti"><input type="checkbox" id="skc-clf-4" onchange="skcCk('skc-clf-4',this)"><span class="tinum">4</span><span class="tin">Building a Cloud Career</span><span class="tidur">1h 0m</span></div>
+  </div>
+
+  <div class="sh"><div class="sn">2</div><div><div class="st">Course Series</div><div class="sc">Becoming a Cloud Practitioner</div></div><div class="ss">17h 30m</div></div>
+  <div class="tlist">
+    <div class="ti"><input type="checkbox" id="skc-clf-5" onchange="skcCk('skc-clf-5',this)"><span class="tinum">5</span><span class="tin">Part 1: AWS Cloud Basics</span><div class="titags"><span class="ttag" style="background:rgba(0,210,255,.15);color:var(--skc);border-color:rgba(0,210,255,.3)">03/03</span></div><span class="tidur">3h 30m</span></div>
+    <div class="ti"><input type="checkbox" id="skc-clf-6" onchange="skcCk('skc-clf-6',this)"><span class="tinum">6</span><span class="tin">Part 2: Compute, Networking &amp; Account Strategies</span><div class="titags"><span class="ttag" style="background:rgba(0,210,255,.15);color:var(--skc);border-color:rgba(0,210,255,.3)">03/03</span></div><span class="tidur">3h 30m</span></div>
+    <div class="ti"><input type="checkbox" id="skc-clf-7" onchange="skcCk('skc-clf-7',this)"><span class="tinum">7</span><span class="tin">Part 3: Identities, Security &amp; Monitoring</span><div class="titags"><span class="ttag" style="background:rgba(0,210,255,.15);color:var(--skc);border-color:rgba(0,210,255,.3)">04/02</span></div><span class="tidur">3h 30m</span></div>
+    <div class="ti"><input type="checkbox" id="skc-clf-8" onchange="skcCk('skc-clf-8',this)"><span class="tinum">8</span><span class="tin">Part 4: Advanced Cloud Services</span><span class="tidur">3h 30m</span></div>
+    <div class="ti"><input type="checkbox" id="skc-clf-9" onchange="skcCk('skc-clf-9',this)"><span class="tinum">9</span><span class="tin">Becoming a Cloud Practitioner Labs Session</span><span class="tidur">3h 30m</span></div>
+  </div>
+
+  <div class="sh"><div class="sn">3</div><div><div class="st">Computer Foundations</div><div class="sc">Pre-req / Support</div></div><div class="ss">14h 0m</div></div>
+  <div class="tlist">
+    <div class="ti"><input type="checkbox" id="skc-clf-10" onchange="skcCk('skc-clf-10',this)"><span class="tinum">10</span><span class="tin">Part 1: Computer and Network Hardware</span><span class="tidur">3h 30m</span></div>
+    <div class="ti"><input type="checkbox" id="skc-clf-11" onchange="skcCk('skc-clf-11',this)"><span class="tinum">11</span><span class="tin">Part 2: Security</span><span class="tidur">3h 30m</span></div>
+    <div class="ti"><input type="checkbox" id="skc-clf-12" onchange="skcCk('skc-clf-12',this)"><span class="tinum">12</span><span class="tin">Part 3: Storage and Databases</span><span class="tidur">3h 30m</span></div>
+    <div class="ti"><input type="checkbox" id="skc-clf-13" onchange="skcCk('skc-clf-13',this)"><span class="tinum">13</span><span class="tin">Part 4: Networking</span><div class="titags"><span class="ttag" style="background:rgba(0,210,255,.15);color:var(--skc);border-color:rgba(0,210,255,.3)">03/24</span></div><span class="tidur">3h 30m</span></div>
+  </div>
+
+  <div class="sh"><div class="sn">4</div><div><div class="st">Exam Prep</div><div class="sc">CLF-C02 Official Prep</div></div><div class="ss">3h 30m · Subtotal: ~46h 30m</div></div>
+  <div class="tlist">
+    <div class="ti"><input type="checkbox" id="skc-clf-14" onchange="skcCk('skc-clf-14',this)"><span class="tinum">14</span><span class="tin">Exam Prep – AWS Certified Cloud Practitioner (CLF-C02)</span><div class="titags"><span class="ttag" style="background:rgba(0,210,255,.15);color:var(--skc);border-color:rgba(0,210,255,.3)">03/26</span></div><span class="tidur">3h 30m</span></div>
+  </div>
+</div>
+
+<!-- ══ SKILLS CENTER — AIF-C01 ══ -->
+<div id="page-skcaif" style="display:none">
+  <div class="hero">
+    <img src="https://images.credly.com/images/4d4693bb-530e-4bca-9327-de07f3aa2348/image.png" alt="AIF-C01" style="width:110px;height:110px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 4px 16px rgba(0,210,255,.35))">
+    <div class="hi">
+      <h2>AWS Certified AI Practitioner</h2>
+      <div class="code">AIF-C01 · AWS Skills Center – Virginia · 7 Items · ~19h 30m</div>
+      <div class="atag" style="background:rgba(0,210,255,.15);color:var(--skc);border-color:rgba(0,210,255,.3)">🎓 Skills Center – Virginia</div>
+    </div>
+    <div class="hp" style="min-width:200px">
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:10px">
+        <div class="pct" id="skcaif-pct" style="font-size:38px;font-weight:900;color:var(--skc);line-height:1">0%</div>
+        <div style="font-size:10px;color:var(--muted)" id="skcaif-sub">0 / 7 items</div>
+      </div>
+      <div style="height:8px;border-radius:4px;background:var(--border);overflow:hidden">
+        <div id="skcaif-bar" style="height:100%;width:0%;background:var(--skc);border-radius:4px;transition:width .4s"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sh"><div class="sn">1</div><div><div class="st">Foundation Knowledge</div><div class="sc">Generative AI foundations</div></div><div class="ss">1h 0m</div></div>
+  <div class="tlist">
+    <div class="ti"><input type="checkbox" id="skc-aif-1" onchange="skcCk('skc-aif-1',this)"><span class="tinum">1</span><span class="tin">Demystifying Generative AI</span><span class="tidur">1h 0m</span></div>
+  </div>
+
+  <div class="sh"><div class="sn">2</div><div><div class="st">Course Series</div><div class="sc">Becoming an AI Practitioner</div></div><div class="ss">15h 0m</div></div>
+  <div class="tlist">
+    <div class="ti"><input type="checkbox" id="skc-aif-2" onchange="skcCk('skc-aif-2',this)"><span class="tinum">2</span><span class="tin">Part 1: Introduction to AI</span><div class="titags"><span class="ttag" style="background:rgba(0,210,255,.15);color:var(--skc);border-color:rgba(0,210,255,.3)">03/19</span></div><span class="tidur">3h 0m</span></div>
+    <div class="ti"><input type="checkbox" id="skc-aif-3" onchange="skcCk('skc-aif-3',this)"><span class="tinum">3</span><span class="tin">Part 2: Introduction to Generative AI</span><div class="titags"><span class="ttag" style="background:rgba(0,210,255,.15);color:var(--skc);border-color:rgba(0,210,255,.3)">03/19</span></div><span class="tidur">3h 0m</span></div>
+    <div class="ti"><input type="checkbox" id="skc-aif-4" onchange="skcCk('skc-aif-4',this)"><span class="tinum">4</span><span class="tin">Part 3: Prompts and Working with FMs</span><span class="tidur">3h 0m</span></div>
+    <div class="ti"><input type="checkbox" id="skc-aif-5" onchange="skcCk('skc-aif-5',this)"><span class="tinum">5</span><span class="tin">Part 4: FM Customization and Responsible AI</span><div class="titags"><span class="ttag" style="background:rgba(0,210,255,.15);color:var(--skc);border-color:rgba(0,210,255,.3)">03/20</span></div><span class="tidur">3h 0m</span></div>
+    <div class="ti"><input type="checkbox" id="skc-aif-6" onchange="skcCk('skc-aif-6',this)"><span class="tinum">6</span><span class="tin">Part 5: Implementing Generative AI</span><div class="titags"><span class="ttag" style="background:rgba(0,210,255,.15);color:var(--skc);border-color:rgba(0,210,255,.3)">03/05</span></div><span class="tidur">3h 0m</span></div>
+  </div>
+
+  <div class="sh"><div class="sn">3</div><div><div class="st">Exam Prep</div><div class="sc">AIF-C01 Official Prep</div></div><div class="ss">3h 30m · Subtotal: ~19h 30m</div></div>
+  <div class="tlist">
+    <div class="ti"><input type="checkbox" id="skc-aif-7" onchange="skcCk('skc-aif-7',this)"><span class="tinum">7</span><span class="tin">Exam Prep – AWS Certified AI Practitioner (AIF-C01)</span><div class="titags"><span class="ttag" style="background:rgba(0,210,255,.15);color:var(--skc);border-color:rgba(0,210,255,.3)">03/06</span></div><span class="tidur">3h 30m</span></div>
+  </div>
+
+  <div style="margin-top:16px;padding:12px 16px;background:linear-gradient(135deg,rgba(0,210,255,.08),rgba(0,210,255,.03));border:1px solid rgba(0,210,255,.2);border-radius:8px;font-size:11px;color:var(--muted);text-align:center">
+    ■ Grand Total: ~66 Hours Across Both Certifications (CLF-C02 + AIF-C01)
+  </div>
+</div>
+
 <!-- PLACEHOLDER -->
 <div id="page-ph" style="display:none">
   <div class="ph">
@@ -523,18 +622,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 //  DATA
 // ═══════════════════════════════════
 const BADGES={
-  clf:'https://d1.awsstatic.com/onedam/marketing-channels/website/aws/en_US/certification/approved/images/certification-badges/clf-badge-resized.2fdbed6fe7b39cf6cef5063f283ddd689cc78caa.png',
-  aif:'https://d1.awsstatic.com/onedam/marketing-channels/website/aws/en_US/certification/approved/images/certification-badges/aif-badge-resized.b4fb88afcfb3d7e57012aa2abe67cbcae6021315.png',
-  saa:'https://d1.awsstatic.com/onedam/marketing-channels/website/aws/en_US/certification/approved/images/certification-badges/saa-badge-resized.c20e7aebf85d36eb5203d39969a4bca1164c47d6.png',
-  dva:'https://d1.awsstatic.com/onedam/marketing-channels/website/aws/en_US/certification/approved/images/certification-badges/dva-badge-resized.d7d49d6e5cda74099c39ca24ef2573994f4b7955.png',
-  soa:'https://d1.awsstatic.com/onedam/marketing-channels/website/aws/en_US/certification/approved/images/certification-badges/soa-badge-resized.4a3b45acc57e27a3468ceefaa6b9c220df8c1024.png',
-  dea:'https://d1.awsstatic.com/onedam/marketing-channels/website/aws/en_US/certification/approved/images/certification-badges/dea-badge-resized.46424d5f94ca6c466febd476c86c5d8fe437db1d.png',
-  mla:'https://d1.awsstatic.com/onedam/marketing-channels/website/aws/en_US/certification/approved/images/certification-badges/mla-badge-resized.000553bbd0e69d5d0d3d555068acfd9f61fed313.png',
-  sap:'https://d1.awsstatic.com/onedam/marketing-channels/website/aws/en_US/certification/approved/images/certification-badges/sap-badge-resized.5b4e271e6559dfa5a4b326685b2f00efd53420ed.png',
-  dop:'https://d1.awsstatic.com/onedam/marketing-channels/website/aws/en_US/certification/approved/images/certification-badges/dop-badge-resized.8fb9086efd423b597d659ad63b5aa399f7c2a4ed.png',
-  ans:'https://d1.awsstatic.com/onedam/marketing-channels/website/aws/en_US/certification/approved/images/certification-badges/ans-badge-resized.d0fbc6d6be3f22ab7a2438f43a592f15da5d40b0.png',
-  scs:'https://d1.awsstatic.com/onedam/marketing-channels/website/aws/en_US/certification/approved/images/certification-badges/scs-badge-resized.f5b59e681f95bdca2713c46d537ff6bddd6b413a.png',
-  mls:'https://d1.awsstatic.com/onedam/marketing-channels/website/aws/en_US/certification/approved/images/certification-badges/mls-badge-resized.e6adaa2cb420c3214ffc9aadf87b65a46eb58c70.png',
+  clf:'https://images.credly.com/images/00634f82-b07f-4bbd-a6bb-53de397fc3a6/image.png',
+  aif:'https://images.credly.com/images/4d4693bb-530e-4bca-9327-de07f3aa2348/image.png',
+  saa:'https://images.credly.com/images/0e284c3f-5164-4b21-8660-0d84737941bc/image.png',
+  dva:'https://images.credly.com/images/b9feab85-1a43-4f6c-99a5-631b88d5461b/image.png',
+  soa:'https://images.credly.com/images/f0d3fbb9-bfa7-4017-9989-7bde8eaf42b1/image.png',
+  dea:'https://images.credly.com/images/e5c85d7f-4e50-431e-b5af-fa9d9b0596e7/image.png',
+  mla:'https://images.credly.com/images/1a634b4e-3d6b-4a74-b118-c0dcb429e8d2/image.png',
+  sap:'https://images.credly.com/images/2d84e428-9078-49b6-a804-13c15383d0de/image.png',
+  dop:'https://images.credly.com/images/bd31ef42-d460-493e-8503-39592aaf0458/image.png',
+  ans:'https://images.credly.com/images/4d08274f-64c1-495e-986b-3143f51b1371/image.png',
+  scs:'https://images.credly.com/images/53acdae5-d69f-4dda-b650-d02ed7a50dd7/image.png',
+  mls:'https://images.credly.com/images/778bde6c-ad1c-4312-ac33-2fa40d50a147/image.png',
+  dbs:'https://images.credly.com/images/885d38e4-55c0-4c35-b4ed-694e2b26be6c/image.png',
+  pas:'https://images.credly.com/images/57bb7f6a-441f-4356-a2f1-7693227a475e/image.png',
 };
 
 const CERTS=[
@@ -552,6 +653,8 @@ const CERTS=[
   {id:'mls',name:'AWS Certified Machine Learning – Specialty',code:'MLS-C01',level:'specialty'},
   {id:'dbs',name:'AWS Certified Database – Specialty',code:'DBS-C01',level:'specialty'},
   {id:'pas',name:'AWS Certified SAP on AWS – Specialty',code:'PAS-C01',level:'specialty'},
+  {id:'skcclf',name:'AWS Certified Cloud Practitioner',code:'CLF-C02',level:'skills-center'},
+  {id:'skcaif',name:'AWS Certified AI Practitioner',code:'AIF-C01',level:'skills-center'},
 ];
 
 const UDEMY=[
@@ -609,7 +712,16 @@ let state=ld('aws-state',{});
 
 // Pre-mark completed items (only sets if not already in state)
 function seedState(){
+  // MLA domain practice items done
   ['mla-aws-6','mla-aws-9','mla-aws-12','mla-aws-15'].forEach(id=>{
+    if(!(id in state)){state[id]=true;}
+  });
+  // CLF Skills Center — items completed per study sheet (03/03, 04/02, 03/24, 3/26)
+  ['skc-clf-5','skc-clf-6','skc-clf-7','skc-clf-13','skc-clf-14'].forEach(id=>{
+    if(!(id in state)){state[id]=true;}
+  });
+  // AIF Skills Center — items completed per study sheet (03/19, 03/20, 03/05, 03/06)
+  ['skc-aif-2','skc-aif-3','skc-aif-5','skc-aif-6','skc-aif-7'].forEach(id=>{
     if(!(id in state)){state[id]=true;}
   });
   sv('aws-state',state);
@@ -628,14 +740,16 @@ const LEVEL_CERTS={
   assoc:['saa','dva','soa','dea','mla'],
   pro:['sap','dop'],
   spec:['ans','scs','mls','dbs','pas'],
+  skc:['skcclf','skcaif'],
 };
 const CERT_LEVEL={
   clf:'found',aif:'found',
   saa:'assoc',dva:'assoc',soa:'assoc',dea:'assoc',mla:'assoc',
   sap:'pro',dop:'pro',
   ans:'spec',scs:'spec',mls:'spec',dbs:'spec',pas:'spec',
+  skcclf:'skc',skcaif:'skc',
 };
-const LEVEL_DOT={found:'f',assoc:'a',pro:'p',spec:'s'};
+const LEVEL_DOT={found:'f',assoc:'a',pro:'p',spec:'s',skc:'k'};
 let activeCertId='mla';
 
 function selectLevel(level,activeCert=null){
@@ -665,9 +779,10 @@ function showCert(id){
   // sync primary/secondary nav to this cert's level
   const level=CERT_LEVEL[id]||'assoc';
   selectLevel(level,id);
-  if(id==='mla'){
+  if(id==='mla'||id==='skcclf'||id==='skcaif'){
     document.querySelectorAll('[id^="page-"],[id="page-ph"]').forEach(e=>e.style.display='none');
-    document.getElementById('page-mla').style.display='';
+    document.getElementById('page-'+id).style.display='';
+    if(id==='skcclf'||id==='skcaif') updSkcProg(id);
   } else {
     const c=CERTS.find(x=>x.id===id);
     const img=document.getElementById('ph-img');
@@ -712,6 +827,33 @@ function updProg(){
   set('mla-sub',done+' / '+total+' items');
   set('st-aws',ad+'/17');set('st-ud',ud+'/14');
   updHeroStats();
+}
+
+const SKC_CLF_IDS=['skc-clf-1','skc-clf-2','skc-clf-3','skc-clf-4','skc-clf-5','skc-clf-6','skc-clf-7','skc-clf-8','skc-clf-9','skc-clf-10','skc-clf-11','skc-clf-12','skc-clf-13','skc-clf-14'];
+const SKC_AIF_IDS=['skc-aif-1','skc-aif-2','skc-aif-3','skc-aif-4','skc-aif-5','skc-aif-6','skc-aif-7'];
+
+function skcCk(id,cb){
+  setOn(id,cb.checked);
+  const row=cb.closest('.ti');if(row)row.classList.toggle('done',cb.checked);
+  const certId=id.startsWith('skc-clf')?'skcclf':'skcaif';
+  updSkcProg(certId);
+}
+
+function updSkcProg(certId){
+  const ids=certId==='skcclf'?SKC_CLF_IDS:SKC_AIF_IDS;
+  const total=ids.length;
+  const done=ids.filter(id=>isOn(id)).length;
+  const pct=Math.round(done/total*100);
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};
+  const setw=(id,v)=>{const e=document.getElementById(id);if(e)e.style.width=v+'%'};
+  set(certId+'-pct',pct+'%');
+  set(certId+'-sub',done+' / '+total+' items');
+  setw(certId+'-bar',pct);
+  // restore done class on rows
+  ids.forEach(id=>{
+    const cb=document.getElementById(id);
+    if(cb){cb.checked=isOn(id);const row=cb.closest('.ti');if(row)row.classList.toggle('done',cb.checked);}
+  });
 }
 
 function updHeroStats(){
@@ -1024,6 +1166,7 @@ function buildHeatmap(){
 window.addEventListener('DOMContentLoaded',()=>{
   selectLevel('assoc','mla');
   buildUdemy();seedState();restore();updProg();buildTrk();
+  updSkcProg('skcclf');updSkcProg('skcaif');
   renderRows('sm-rows',SM);renderRows('ns-rows',NS);renderRows('ma-rows',MA);
   buildHeatmap();
 
