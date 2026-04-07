@@ -370,14 +370,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   </div>
 
   <div class="tabs">
-    <div class="tab on" onclick="switchTab('aws',event)">AWS Exam Prep</div>
+    <div class="tab" onclick="switchTab('aws',event)">AWS Exam Prep</div>
     <div class="tab" onclick="switchTab('udemy',event)">Udemy Course</div>
-    <div class="tab" onclick="switchTab('pt',event)">Practice Tests</div>
+    <div class="tab on" onclick="switchTab('pt',event)">Practice Tests</div>
     <div class="tab" onclick="switchTab('trk',event)">Tracker Sheet</div>
   </div>
 
   <!-- AWS PREP -->
-  <div class="tc on" id="tc-aws">
+  <div class="tc" id="tc-aws">
     <div class="sh"><div class="sn">1</div><div><div class="st">Get to Know the Exam</div><div class="sc">Overview &amp; Practice Questions</div></div><div class="ss">1h 10m</div></div>
     <div class="tlist">
       <div class="ti" id="ti-1"><input type="checkbox" id="mla-aws-1" onchange="ck('mla-aws-1',this)"><span class="tinum">1</span><span class="tin">Exam Prep Plan Overview</span><div class="titags"><span class="ttag">Fundamental</span></div><span class="tidur">15m</span></div>
@@ -419,7 +419,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   </div>
 
   <!-- PRACTICE TESTS -->
-  <div class="tc" id="tc-pt">
+  <div class="tc on" id="tc-pt">
     <div style="font-size:10px;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
       <span style="display:inline-block;width:14px;height:2px;background:var(--orange);border-radius:1px"></span>
       Pass target: ≥72% &nbsp;|&nbsp; 13 Practice Tests · 3 Instructors
@@ -436,6 +436,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
       <div class="ptc"><div class="inn">Nikolai Schuler</div><div class="ins">4 Tests · Best: <span>87%</span></div><div class="ch" style="height:160px"><canvas id="ch-ns"></canvas></div><div id="ns-rows" style="margin-top:8px"></div></div>
       <div class="ptc"><div class="inn">Marlon Anesi</div><div class="ins">6 Tests · Best: <span>92%</span></div><div class="ch" style="height:160px"><canvas id="ch-ma"></canvas></div><div id="ma-rows" style="margin-top:8px"></div></div>
     </div>
+    <div class="card" style="margin-bottom:14px"><h3>Score Heatmap — All Tests &amp; Attempts</h3><div id="hm-wrap" style="padding-top:4px"></div></div>
     <div class="card"><h3>All Scores — Combined View (Best per Test)</h3><div class="ch" style="height:240px"><canvas id="ch-all"></canvas></div></div>
   </div>
 
@@ -548,8 +549,8 @@ const MA=[
   {label:'PT 6',scores:[76,null,null,null,null]},
 ];
 
-const AC=['#5DADE2','#BB8FCE','#2ECC71','#F0B27A','#E74C3C'];
-const ACB=['rgba(93,173,226,.8)','rgba(187,143,206,.8)','rgba(46,204,113,.8)','rgba(240,178,122,.8)','rgba(231,76,60,.8)'];
+const AC=['#00D2FF','#FF6B9D','#C3F74A','#FFD93D','#A78BFA'];
+const ACB=['rgba(0,210,255,.82)','rgba(255,107,157,.82)','rgba(195,247,74,.82)','rgba(255,217,61,.82)','rgba(167,139,250,.82)'];
 const PASS=72;
 
 const AWS_IDS=Array.from({length:17},(_,i)=>`mla-aws-${i+1}`);
@@ -1057,12 +1058,32 @@ function buildTrk(){
   buildTrkPt('trk-sm','sm',3);buildTrkPt('trk-ns','ns',4);buildTrkPt('trk-ma','ma',6);
 }
 
+// Score heatmap — CSS table showing all scores color-coded
+function buildHeatmap(){
+  const wrap=document.getElementById('hm-wrap');if(!wrap)return;
+  const instData=[{data:SM,name:'Stephane Maarek'},{data:NS,name:'Nikolai Schuler'},{data:MA,name:'Marlon Anesi'}];
+  const cellClass=v=>v===null?'hm-empty':v>=PASS?'hm-pass':v>=65?'hm-near':'hm-fail';
+  let html='<table class="hm-table"><thead><tr><th class="left">Test</th><th>A1</th><th>A2</th><th>A3</th><th>A4</th><th>A5</th><th style="min-width:60px">Best</th></tr></thead><tbody>';
+  instData.forEach(({data,name})=>{
+    html+=`<tr class="hm-inst-row"><th class="left" colspan="7">${name}</th></tr>`;
+    data.forEach(t=>{
+      const b=best(t.scores);
+      html+=`<tr><th style="font-size:10px;font-weight:600;text-align:left;padding:3px 8px;color:var(--muted)">${t.label}</th>`;
+      t.scores.forEach(s=>{html+=`<td class="hm-cell ${cellClass(s)}">${s!==null?s+'%':'·'}</td>`;});
+      html+=`<td style="text-align:center;font-weight:800;font-size:11px;color:${b===null?'var(--muted)':b>=PASS?'#2ECC71':'#E74C3C'}">${b!==null?b+'%':'—'}</td></tr>`;
+    });
+  });
+  html+='</tbody></table>';
+  wrap.innerHTML=html;
+}
+
 // ═══════════════════════════════════
 //  INIT
 // ═══════════════════════════════════
 window.addEventListener('DOMContentLoaded',()=>{
   buildUdemy();restore();updProg();buildTrk();
   renderRows('sm-rows',SM);renderRows('ns-rows',NS);renderRows('ma-rows',MA);
+  buildHeatmap();
 
   requestAnimationFrame(()=>{
     buildGrouped('ch-sm',SM);buildGrouped('ch-ns',NS);buildGrouped('ch-ma',MA);
