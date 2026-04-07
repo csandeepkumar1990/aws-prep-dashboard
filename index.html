@@ -351,8 +351,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 
 <!-- FLAT SINGLE-CLICK NAV -->
 <div id="nav">
-  <div class="nv" id="nv-overview" onclick="showPage('overview')">Overview</div>
-  <div class="nvsep"></div>
   <div class="nvlbl">Foundational</div>
   <div class="nv" id="nv-clf" onclick="showCert('clf')"><span class="lvdot f"></span>CLF-C02</div>
   <div class="nv" id="nv-aif" onclick="showCert('aif')"><span class="lvdot f"></span>AIF-C01</div>
@@ -378,55 +376,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 
 <!-- CONTENT -->
 <div id="wrap">
-
-<!-- ══ OVERVIEW PAGE ══ -->
-<div id="page-overview" style="display:none">
-
-  <!-- Stat row -->
-  <div class="g4">
-    <div class="stat"><div class="lbl">MLA Progress</div><div class="val" style="color:var(--orange)" id="ov-pct">0%</div><div class="sub" id="ov-sub">0 / 31 items</div></div>
-    <div class="stat"><div class="lbl">Best Practice Score</div><div class="val" style="color:var(--purple)">92%</div><div class="sub">Marlon PT1 · A2 — Pass ✓</div></div>
-    <div class="stat"><div class="lbl">Scores Above 72%</div><div class="val" style="color:var(--green)" id="ov-pass">0</div><div class="sub" id="ov-passsub">of 0 attempts taken</div></div>
-    <div class="stat"><div class="lbl">Avg Latest Score</div><div class="val" style="color:var(--blue)" id="ov-avg">—</div><div class="sub" id="ov-avg-sub">Most recent attempt per test</div></div>
-  </div>
-
-  <!-- Row 1: MLA breakdown + Score trend -->
-  <div class="g2">
-    <div class="card">
-      <h3>MLA-C01 — Study Progress Breakdown</h3>
-      <div class="ch" style="height:200px"><canvas id="ch-progress"></canvas></div>
-    </div>
-    <div class="card">
-      <h3>Practice Test Score Trend — All Attempts</h3>
-      <div class="ch" style="height:200px"><canvas id="ch-trend"></canvas></div>
-    </div>
-  </div>
-
-  <!-- Row 2: Grouped attempts + Domain radar -->
-  <div class="g2">
-    <div class="card">
-      <h3>Score by Instructor &amp; Attempt (A1–A5 grouped)</h3>
-      <div class="ch" style="height:200px"><canvas id="ch-inst"></canvas></div>
-    </div>
-    <div class="card">
-      <h3>Domain Coverage — AWS Exam Prep</h3>
-      <div class="ch" style="height:200px"><canvas id="ch-domain"></canvas></div>
-    </div>
-  </div>
-
-  <!-- Row 3: Distribution + Udemy hours -->
-  <div class="g2">
-    <div class="card">
-      <h3>Score Distribution — Pass vs Fail Breakdown</h3>
-      <div class="ch" style="height:180px"><canvas id="ch-dist"></canvas></div>
-    </div>
-    <div class="card">
-      <h3>Udemy Course — Hours per Section</h3>
-      <div class="ch" style="height:180px"><canvas id="ch-udemy"></canvas></div>
-    </div>
-  </div>
-
-</div>
 
 <!-- ══ MLA DETAIL PAGE ══ -->
 <div id="page-mla">
@@ -662,6 +611,14 @@ const sv=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 const ld=(k,d)=>{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v)};
 
 let state=ld('aws-state',{});
+
+// Pre-mark completed items (only sets if not already in state)
+function seedState(){
+  ['mla-aws-6','mla-aws-9','mla-aws-12','mla-aws-15'].forEach(id=>{
+    if(!(id in state)){state[id]=true;}
+  });
+  sv('aws-state',state);
+}
 const isOn=id=>!!state[id];
 const setOn=(id,v)=>{state[id]=v;sv('aws-state',state)};
 
@@ -729,11 +686,10 @@ function updProg(){
   set('mla-pct',pct+'%');
   set('mla-sub',done+' / '+total+' items');
   set('st-aws',ad+'/17');set('st-ud',ud+'/14');
-  set('ov-pct',pct+'%');set('ov-sub',done+' / '+total+' items');
-  updOvStats();
+  updHeroStats();
 }
 
-function updOvStats(){
+function updHeroStats(){
   const allScores=getAllScores();
   const taken=allScores.filter(v=>v!==null);
   const passed=taken.filter(v=>v>=PASS);
@@ -741,13 +697,9 @@ function updOvStats(){
   const latestScores=getLatestScores();
   const avgLatest=latestScores.length?Math.round(latestScores.reduce((a,b)=>a+b,0)/latestScores.length):null;
   const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};
-  set('ov-pass',passed.length);
-  set('ov-passsub','of '+taken.length+' attempts taken');
-  set('ov-avg',avgLatest!==null?avgLatest+'%':'—');
   set('ov-pass-hero',passRate>0?passRate+'%':'—');
   set('hero-avg-latest',avgLatest!==null?avgLatest+'%':'—');
   set('hero-avg-big',avgLatest!==null?avgLatest+'%':'—');
-  // per-instructor avg latest on PT cards
   set('al-sm',instLatestAvg(SM));
   set('al-ns',instLatestAvg(NS));
   set('al-ma',instLatestAvg(MA));
@@ -900,169 +852,6 @@ function buildCombined(){
   }});
 }
 
-// ── OVERVIEW CHARTS ──
-
-// Progress breakdown horizontal stacked bar with labels
-function buildOvProgress(){
-  dc('ch-progress');const ctx=document.getElementById('ch-progress')?.getContext('2d');if(!ctx)return;
-  const ad=AWS_IDS.filter(id=>isOn(id)).length;
-  const ud=UD_IDS.filter(id=>isOn(id)).length;
-  charts['ch-progress']=new Chart(ctx,{type:'bar',data:{
-    labels:['AWS Exam Prep','Udemy Course','Overall'],
-    datasets:[
-      {label:'Completed',data:[ad,ud,ad+ud],
-       backgroundColor:['rgba(255,153,0,.85)','rgba(93,173,226,.85)','rgba(46,204,113,.85)'],
-       borderColor:['#FF9900','#5DADE2','#2ECC71'],borderWidth:1.5,borderRadius:5,borderSkipped:false,
-       datalabels:{color:'#fff',font:{size:10,weight:'bold'},anchor:'center',align:'center',
-                  formatter:(v,ctx)=>{const tot=[17,14,31][ctx.dataIndex];return v>0?`${v}/${tot}`:''}}},
-      {label:'Remaining',data:[17-ad,14-ud,31-(ad+ud)],
-       backgroundColor:'rgba(45,61,80,.45)',borderRadius:5,borderSkipped:false,
-       datalabels:{display:false}},
-    ]},options:{
-    indexAxis:'y',responsive:true,maintainAspectRatio:false,animation:{duration:700},
-    scales:{x:{stacked:true,max:31,grid:{color:'rgba(45,61,80,.4)'},ticks:{color:'#8899AA',font:{size:9}}},
-            y:{stacked:true,grid:{display:false},ticks:{color:'#8899AA',font:{size:10}}}},
-    plugins:{
-      legend:{display:true,labels:{color:'#8899AA',font:{size:9},boxWidth:9,padding:8}},
-      datalabels:{display:false}, // overridden per dataset
-    },
-  }});
-}
-
-// Score trend — all individual attempts in chronological order
-function buildOvTrend(){
-  dc('ch-trend');const ctx=document.getElementById('ch-trend')?.getContext('2d');if(!ctx)return;
-  const pts=[];
-  const smTaken=SM.flatMap((t,i)=>t.scores.map((s,a)=>s!==null?{x:`SM PT${i+1} A${a+1}`,y:s,c:'#5DADE2'}:null).filter(Boolean));
-  const nsTaken=NS.flatMap((t,i)=>t.scores.map((s,a)=>s!==null?{x:`NS PT${i+1} A${a+1}`,y:s,c:'#BB8FCE'}:null).filter(Boolean));
-  const maTaken=MA.flatMap((t,i)=>t.scores.map((s,a)=>s!==null?{x:`MA PT${i+1} A${a+1}`,y:s,c:'#2ECC71'}:null).filter(Boolean));
-  const all=[...smTaken,...nsTaken,...maTaken];
-  if(!all.length){
-    const el=document.getElementById('ch-trend')?.parentElement;
-    if(el)el.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:200px;color:var(--muted);font-size:12px">No scores recorded yet</div>';
-    return;
-  }
-  charts['ch-trend']=new Chart(ctx,{type:'scatter',data:{datasets:[
-    {label:'Maarek',data:smTaken.map((p,i)=>({x:i,y:p.y})),backgroundColor:'#5DADE2',pointRadius:7,pointHoverRadius:9,showLine:true,borderColor:'rgba(93,173,226,.4)',borderWidth:1,tension:.3},
-    {label:'Schuler',data:nsTaken.map((p,i)=>({x:i,y:p.y})),backgroundColor:'#BB8FCE',pointRadius:7,pointHoverRadius:9,showLine:true,borderColor:'rgba(187,143,206,.4)',borderWidth:1,tension:.3},
-    {label:'Anesi',data:maTaken.map((p,i)=>({x:i,y:p.y})),backgroundColor:'#2ECC71',pointRadius:7,pointHoverRadius:9,showLine:true,borderColor:'rgba(46,204,113,.4)',borderWidth:1,tension:.3},
-    {label:'Pass (72%)',data:[{x:-1,y:72},{x:Math.max(smTaken.length,nsTaken.length,maTaken.length)+1,y:72}],type:'line',borderColor:'#FF9900',borderDash:[5,5],borderWidth:1.5,pointRadius:0,fill:false,showLine:true},
-  ]},options:{
-    responsive:true,maintainAspectRatio:false,animation:{duration:500},
-    scales:{y:{min:55,max:100,grid:{color:'rgba(45,61,80,.7)'},ticks:{color:'#8899AA',font:{size:9},callback:v=>v+'%'}},
-            x:{grid:{display:false},ticks:{display:false}}},
-    plugins:{legend:{display:true,labels:{color:'#8899AA',font:{size:9},boxWidth:9,padding:8}},
-             tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.parsed.y}%`}}},
-  }});
-}
-
-// Per-instructor grouped bar (overview)
-function buildOvInst(){
-  dc('ch-inst');const ctx=document.getElementById('ch-inst')?.getContext('2d');if(!ctx)return;
-  // Show each test's attempts side by side, grouped by instructor
-  const smData=SM.map(t=>best(t.scores)),nsData=NS.map(t=>best(t.scores)),maData=MA.map(t=>best(t.scores));
-  const maxL=Math.max(smData.length,nsData.length,maData.length);
-  const labels=Array.from({length:maxL},(_,i)=>'PT'+(i+1));
-  const pad=(a,n)=>a.concat(Array(n-a.length).fill(null));
-  charts['ch-inst']=new Chart(ctx,{type:'bar',data:{labels,datasets:[
-    {label:'Maarek',data:pad(smData,maxL),backgroundColor:pad(smData,maxL).map(v=>v===null?'transparent':v>=PASS?'rgba(93,173,226,.8)':'rgba(231,76,60,.7)'),borderColor:pad(smData,maxL).map(v=>v===null?'transparent':v>=PASS?'#5DADE2':'#E74C3C'),borderWidth:1.5,borderRadius:4,borderSkipped:false},
-    {label:'Schuler',data:pad(nsData,maxL),backgroundColor:pad(nsData,maxL).map(v=>v===null?'transparent':v>=PASS?'rgba(187,143,206,.8)':'rgba(231,76,60,.7)'),borderColor:pad(nsData,maxL).map(v=>v===null?'transparent':v>=PASS?'#BB8FCE':'#E74C3C'),borderWidth:1.5,borderRadius:4,borderSkipped:false},
-    {label:'Anesi',data:pad(maData,maxL),backgroundColor:pad(maData,maxL).map(v=>v===null?'transparent':v>=PASS?'rgba(46,204,113,.8)':'rgba(231,76,60,.7)'),borderColor:pad(maData,maxL).map(v=>v===null?'transparent':v>=PASS?'#2ECC71':'#E74C3C'),borderWidth:1.5,borderRadius:4,borderSkipped:false},
-    {label:'Pass (72%)',data:Array(maxL).fill(72),type:'line',borderColor:'#FF9900',borderDash:[4,4],borderWidth:1.5,pointRadius:0,fill:false,order:-1},
-  ]},options:{
-    responsive:true,maintainAspectRatio:false,animation:{duration:500},
-    scales:{y:{min:55,max:100,grid:{color:'rgba(45,61,80,.7)'},ticks:{color:'#8899AA',font:{size:9},callback:v=>v+'%'}},
-            x:{grid:{display:false},ticks:{color:'#8899AA',font:{size:9}}}},
-    plugins:{legend:{display:true,labels:{color:'#8899AA',font:{size:9},boxWidth:9,padding:8}},
-             tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.parsed.y!==null?ctx.parsed.y+'%':'—'}`}}},
-  }});
-}
-
-// Domain radar
-function buildOvDomain(){
-  dc('ch-domain');const ctx=document.getElementById('ch-domain')?.getContext('2d');if(!ctx)return;
-  // Domain items: D1=items 5,6,7 | D2=items 8,9,10 | D3=items 11,12,13 | D4=items 14,15
-  const d1=['mla-aws-5','mla-aws-6','mla-aws-7'];
-  const d2=['mla-aws-8','mla-aws-9','mla-aws-10'];
-  const d3=['mla-aws-11','mla-aws-12','mla-aws-13'];
-  const d4=['mla-aws-14','mla-aws-15'];
-  const pct=ids=>Math.round(ids.filter(id=>isOn(id)).length/ids.length*100);
-  charts['ch-domain']=new Chart(ctx,{type:'radar',data:{
-    labels:['Domain 1\nData Prep','Domain 2\nML Dev','Domain 3\nDeploy &\nOrchestrate','Domain 4\nMonitoring\n& Security'],
-    datasets:[{
-      label:'Completion %',
-      data:[pct(d1),pct(d2),pct(d3),pct(d4)],
-      backgroundColor:'rgba(255,153,0,.15)',borderColor:'#FF9900',borderWidth:2,
-      pointBackgroundColor:'#FF9900',pointRadius:5,pointHoverRadius:7,
-    }]},options:{
-    responsive:true,maintainAspectRatio:false,animation:{duration:500},
-    scales:{r:{min:0,max:100,grid:{color:'rgba(45,61,80,.7)'},angleLines:{color:'rgba(45,61,80,.7)'},
-               ticks:{color:'#8899AA',font:{size:8},stepSize:25,callback:v=>v+'%'},
-               pointLabels:{color:'#8899AA',font:{size:9}}}},
-    plugins:{legend:{display:false}},
-  }});
-}
-
-// Score distribution with count labels
-function buildOvDist(){
-  dc('ch-dist');const ctx=document.getElementById('ch-dist')?.getContext('2d');if(!ctx)return;
-  const all=getAllScores().filter(v=>v!==null);
-  const buckets={'<60':0,'60–64':0,'65–71\n(near miss)':0,'72–79\n(pass)':0,'80–89\n(good)':0,'90–100\n(great)':0};
-  all.forEach(s=>{
-    if(s<60)buckets['<60']++;
-    else if(s<=64)buckets['60–64']++;
-    else if(s<=71)buckets['65–71\n(near miss)']++;
-    else if(s<=79)buckets['72–79\n(pass)']++;
-    else if(s<=89)buckets['80–89\n(good)']++;
-    else buckets['90–100\n(great)']++;
-  });
-  const cols=['#922B21','#E74C3C','#E67E22','#2ECC71','#27AE60','#1A5276'];
-  const vals=Object.values(buckets);
-  charts['ch-dist']=new Chart(ctx,{type:'bar',data:{
-    labels:Object.keys(buckets),
-    datasets:[{data:vals,backgroundColor:cols,borderColor:cols,borderWidth:1.5,borderRadius:6,borderSkipped:false,
-               datalabels:{color:'#fff',font:{size:10,weight:'bold'},anchor:'end',align:'top',
-                          formatter:v=>v>0?v:''}}]},
-  options:{
-    responsive:true,maintainAspectRatio:false,animation:{duration:600},
-    layout:{padding:{top:20}},
-    scales:{y:{grid:{color:'rgba(45,61,80,.6)'},ticks:{color:'#8899AA',font:{size:9},stepSize:1},beginAtZero:true},
-            x:{grid:{display:false},ticks:{color:'#8899AA',font:{size:8}}}},
-    plugins:{
-      legend:{display:false},datalabels:{display:false}, // overridden per dataset
-      tooltip:{callbacks:{label:ctx=>`${ctx.parsed.y} score${ctx.parsed.y!==1?'s':''}`}},
-    },
-  }});
-}
-
-// Udemy hours horizontal bar with completion labels
-function buildOvUdemy(){
-  dc('ch-udemy');const ctx=document.getElementById('ch-udemy')?.getContext('2d');if(!ctx)return;
-  const done=UDEMY.map(s=>isOn('mla-udemy-'+s.n));
-  charts['ch-udemy']=new Chart(ctx,{type:'bar',data:{
-    labels:UDEMY.map(s=>s.n+'. '+s.name.substring(0,24)+(s.name.length>24?'…':'')),
-    datasets:[{
-      label:'Hours',data:UDEMY.map(s=>s.hrs),
-      backgroundColor:UDEMY.map((s,i)=>done[i]?'rgba(46,204,113,.8)':'rgba(93,173,226,.45)'),
-      borderColor:UDEMY.map((s,i)=>done[i]?'#2ECC71':'#5DADE2'),
-      borderWidth:1.5,borderRadius:4,borderSkipped:false,
-      datalabels:{
-        color:(_,ctx)=>done[ctx.dataIndex]?'#2ECC71':'#5DADE2',
-        font:{size:8,weight:'bold'},anchor:'end',align:'right',
-        formatter:(v,ctx)=>v>0?(done[ctx.dataIndex]?'✓ ':'')+v+'h':'',
-      }
-    }]},options:{
-    indexAxis:'y',responsive:true,maintainAspectRatio:false,animation:{duration:600},
-    layout:{padding:{right:30}},
-    scales:{x:{grid:{color:'rgba(45,61,80,.4)'},ticks:{color:'#8899AA',font:{size:9},callback:v=>v+'h'},max:4},
-            y:{grid:{display:false},ticks:{color:'#8899AA',font:{size:8}}}},
-    plugins:{
-      legend:{display:false},datalabels:{display:false}, // overridden per dataset
-      tooltip:{callbacks:{label:ctx=>`${ctx.parsed.x}h · ${done[ctx.dataIndex]?'✓ Done':'Pending'}`}},
-    },
-  }});
-}
-
 // ═══════════════════════════════════
 //  TRACKER SHEET
 // ═══════════════════════════════════
@@ -1208,14 +997,13 @@ function buildHeatmap(){
 //  INIT
 // ═══════════════════════════════════
 window.addEventListener('DOMContentLoaded',()=>{
-  buildUdemy();restore();updProg();buildTrk();
+  buildUdemy();seedState();restore();updProg();buildTrk();
   renderRows('sm-rows',SM);renderRows('ns-rows',NS);renderRows('ma-rows',MA);
   buildHeatmap();
 
   requestAnimationFrame(()=>{
     buildGrouped('ch-sm',SM);buildGrouped('ch-ns',NS);buildGrouped('ch-ma',MA);
     buildCombined();
-    buildOvProgress();buildOvTrend();buildOvInst();buildOvDomain();buildOvDist();buildOvUdemy();
   });
 });
 </script>
