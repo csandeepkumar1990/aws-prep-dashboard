@@ -892,7 +892,7 @@ const UDEMY=[
 const SM=[
   {label:'PT 1',scores:[70,null,null,null,null]},
   {label:'PT 2',scores:[83,null,null,null,null]},
-  {label:'PT 3',scores:[null,null,null,null,null]},
+  {label:'PT 3',scores:[73,null,null,null,null]},
 ];
 const NS=[
   {label:'PT 1',scores:[86,83,null,null,null]},
@@ -1287,7 +1287,7 @@ function buildCombined(){
 //  TRACKER SHEET
 // ═══════════════════════════════════
 const SEED={
-  sm:{'pt1-a1':70},
+  sm:{'pt1-a1':70,'pt2-a1':83,'pt3-a1':73},
   ns:{'pt1-a1':86,'pt1-a2':83,'pt2-a1':72,'pt3-a1':73,'pt4-a1':66,'pt4-a2':87},
   ma:{'pt1-a1':81,'pt1-a2':92,'pt2-a1':69,'pt2-a2':84,'pt3-a1':67,'pt3-a2':84,'pt4-a1':66,'pt4-a2':63,'pt5-a1':80,'pt6-a1':76}
 };
@@ -1295,6 +1295,9 @@ const SEED={
 function seedTrk(){
   for(const[inst,d]of Object.entries(SEED))
     for(const[k,v]of Object.entries(d)){const key=`${inst}-${k}`;if(!(key in trkScores))trkScores[key]=v;}
+  // Force-update SM scores that changed
+  trkScores['sm-pt2-a1']=83;
+  trkScores['sm-pt3-a1']=73;
   sv('aws-trk-scores',trkScores);
 }
 
